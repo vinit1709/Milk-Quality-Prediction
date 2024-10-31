@@ -1,9 +1,17 @@
 import streamlit as st
 import numpy as np
-import joblib  # Assuming you're using a saved model
+import joblib
+import os
 
-# Load the trained machine learning model
-model = joblib.load('milk_quality_model_2.pkl')
+# Check if the model file exists and load it
+if os.path.exists("milk_quality_model_2.pkl"):
+    try:
+        model = joblib.load("milk_quality_model_2.pkl")
+    except ModuleNotFoundError as e:
+        st.error(f"Error loading model: {str(e)}")
+        st.stop()  # Stop execution if model loading fails
+else:
+    st.error("Model file not found. Please check the file path and try again.")
 
 # Title of the web app
 st.title("Milk Quality Prediction")
